@@ -10,14 +10,9 @@ package com.ynab.coroutine.scheduling
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
 	
-	import mx.core.Application;
-	import mx.core.FlexGlobals;
-		
 	public class TimerScheduler implements ICoThreadScheduler
 	{
 		protected var coThread : ICoThread;
-		
-		protected var topLevelApplication : Application 
 		
 		//I Seemed to get better results from 30ms
 		public function TimerScheduler(minTimeSlice : int=30, timeBetweenSlices : int=1)
@@ -25,8 +20,6 @@ package com.ynab.coroutine.scheduling
 			this._minTimeSlice = minTimeSlice;
 			this._timeBetweenSlices = timeBetweenSlices;
 			initTimer();
-			
-			topLevelApplication = FlexGlobals.topLevelApplication as Application;
 		}
 		
 		public function addThread(thread : ICoThread) : void
@@ -122,17 +115,7 @@ package com.ynab.coroutine.scheduling
 			{
 				if (this.coThread != null)
 				{
-					//TB: for a while I tried using callLater instead of the timer
-					//because it got us called faster, but it also dropped my framerate more than I expected
-					//So I am sticking with a timer for now.
-//					if (timeBetweenSlices < 5)
-//					{
-//						topLevelApplication.callLater(processThreads);
-//					}
-//					else
-//					{
-						timer.start();
-					//}
+					timer.start();
 				}
 			}
 			else
