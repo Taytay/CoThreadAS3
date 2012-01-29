@@ -1,3 +1,10 @@
+
+The inner-workings of this CoThread library was inspired by Maximilian Herkender's 
+async JSON library. That guy did some really clever stuff! Thanks Maximilian!
+Check out his fast JSON library here: 
+http://blog.brokenfunction.com/2010/10/actionjson-the-fastest-actionscript-3-0-json-parser/
+
+
 This software uses the following code:
 
 SimpleObjectPool from Shane McCartney (Thanks Shane!):
