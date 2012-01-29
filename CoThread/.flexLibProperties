@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
+  <includeClasses>
+    <classEntry path="com.lia.utils.SimpleObjectPool"/>
+    <classEntry path="com.ynab.coroutine.CoRoutine"/>
+    <classEntry path="com.ynab.coroutine.CoRoutineContext"/>
+    <classEntry path="com.ynab.coroutine.CoRoutineDelegate"/>
+    <classEntry path="com.ynab.coroutine.CoThread"/>
+    <classEntry path="com.ynab.coroutine.ICoRoutine"/>
+    <classEntry path="com.ynab.coroutine.ICoThread"/>
+    <classEntry path="com.ynab.coroutine.loops.BaseLoop"/>
+    <classEntry path="com.ynab.coroutine.loops.ConditionalLoop"/>
+    <classEntry path="com.ynab.coroutine.loops.DoWhileLoop"/>
+    <classEntry path="com.ynab.coroutine.loops.InfiniteLoop"/>
+    <classEntry path="com.ynab.coroutine.loops.WhileLoop"/>
+    <classEntry path="com.ynab.coroutine.scheduling.ICoThreadScheduler"/>
+    <classEntry path="com.ynab.coroutine.scheduling.MainCoThreadScheduler"/>
+    <classEntry path="com.ynab.coroutine.scheduling.TimerScheduler"/>
+    <classEntry path="com.ynab.coroutine.results.CoRoutineResult"/>
+    <classEntry path="com.ynab.coroutine.results.CoRoutineResultString"/>
+    <classEntry path="com.ynab.coroutine.results.CoRoutineResultObject"/>
+    <classEntry path="com.ynab.coroutine.results.CoRoutineResultXML"/>
+    <classEntry path="com.ynab.coroutine.scheduling.EnterFrameScheduler"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

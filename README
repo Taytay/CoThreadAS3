@@ -1,0 +1,3 @@
+The CoThread library allows you to create cooperative "threads" and coroutines in Actionscript 3 (Flex/AIR). But here's what sets CoThread apart: Unlike many other pseudo or cooperative threading libraries, CoThread allows you to easily break up _recursive_ tasks so that your UI stays responsive even while your application is doing significant processing.
+
+I'll publish more docs in a bit. For now, just run the CoThreadTest.mxml app in the CoThreadSamples application.

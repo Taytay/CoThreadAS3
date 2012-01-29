@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Written by Taylor Brown for YouNeedABudget.com
+Copyright YouNeedABudget.com, 2012. See LICENSE file for details. 
+You may not use this file except in compliance with the License.
+-->
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+											 xmlns:s="library://ns.adobe.com/flex/spark" 
+											 xmlns:mx="library://ns.adobe.com/flex/mx"
+											 creationComplete="onCreationComplete()" addedToStage="onAddedToStage()" 
+											 width="600"
+											 height="500">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ynab.SampleRunner;
+			import com.ynab.TraceWriter;
+			import com.ynab.coroutine.CoRoutineContext;
+			import com.ynab.coroutine.CoThread;
+			import com.ynab.coroutine.scheduling.MainCoThreadScheduler;
+			import com.ynab.exampleThreads.XMLPrinter;
+			
+			import mx.events.PropertyChangeEvent;
+			
+			protected function onAddedToStage() : void
+			{
+				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "targetFrameRate", 0, stage.frameRate));
+				//this.targetFrameRate = this.stage.frameRate;
+				this.stage.addEventListener("enterFrame", onEnterFrame);
+			}
+			
+			protected function onCreationComplete() : void
+			{
+			}
+			
+			[Bindable]
+			protected var currentFrameRate : int = 0;
+			
+			//protected var _targetFrameRate : Number = 0;
+
+			[Bindable]
+			public function get targetFrameRate():Number
+			{
+				if (stage != null)
+				{
+					return stage.frameRate;
+				}
+				return 0;
+			}
+
+			public function set targetFrameRate(value:Number):void
+			{
+				if (stage != null)
+				{
+					stage.frameRate = value;
+				}
+			}
+
+			
+			protected var frameCounter : int = 0;
+			protected var timeAtLastFrame : int = 0;
+			
+			protected function onEnterFrame(event : Event) : void
+			{
+				++frameCounter;
+				this.targetFrameRate = this.stage.frameRate;
+				var currentTime : int = getTimer();
+				if (currentTime - timeAtLastFrame >= 1000)
+				{
+					this.currentFrameRate = frameCounter;
+					frameCounter = 0;
+					timeAtLastFrame = currentTime;
+				}
+			}
+			
+			
+			
+			[Bindable]
+			protected var counter : int = 0;
+			
+			protected var buttonPressCounter : int = 0;
+			
+			protected function runTest() : void
+			{
+				
+			}
+			
+			
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				//Uncomment this if you want the output going to the text area instead of the trace
+				//It gets slow after a while though.
+				//var textWriter : TextAreaWriter = new TextAreaWriter(this.textbox);
+				//The demo is actually much faster if we just trace instead of writing to the textbox:
+				var textWriter : TraceWriter = new TraceWriter();
+				SampleRunner.startThreads(textWriter);
+			}			
+			
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				var startTime : int = getTimer();
+				
+				var traceWriter : TraceWriter = new TraceWriter();
+				var printer : XMLPrinter = new XMLPrinter(traceWriter);
+				printer.printXML(sampleXML, "");
+				traceWriter.writeLine("Done parsing XML (Blocking)! Total elapsed time = "+(getTimer() - startTime));
+			}
+
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				var sampleThread : CoThread = new CoThread(startPrinting);
+				sampleThread.start();
+				function startPrinting(context : CoRoutineContext) : void
+				{
+					var printer : XMLPrinter = new XMLPrinter(new TraceWriter());
+					printer.printXMLAsync(sampleXML, "", context);
+				}
+			}
+
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<fx:XML id="sampleXML" source="sample.xml"/>
+	</fx:Declarations>
+	
+	<s:HGroup  x="50" y="50" width="100%">
+		<s:VGroup>
+			<!--<s:Label maxWidth="200" text="Click the button below to start some threads. You can click it multiple times in succession to see how the system handles a lot of threads. (Observe the console window to see the thread output.)"/>-->
+			<mx:Spacer height="10"/>
+				
+			<s:Button label="Parse XML (Blocking call)" click="button2_clickHandler(event)"/>
+			<s:Button label="Parse XML (Async/Non-Blocking)" click="button3_clickHandler(event)"/>
+			<s:Button label="Click me to start a lot of threads" click="button1_clickHandler(event)"/>
+			<mx:Spacer height="30"/>
+			<s:HGroup>
+				<s:Label text="{'Framerate : '+currentFrameRate}" />
+				<s:Label text="{'Target Framerate : '+targetFrameRate}"/>	
+			</s:HGroup>
+			
+			<mx:ProgressBar indeterminate="true" width="200" label=""/>
+			<mx:Spacer height="15"/>
+
+			<s:Label text="{'App Frame Rate: '+targetFrameRate.toString()}"/>
+			<s:HSlider width="200" minimum="1" maximum="1000"  value="@{targetFrameRate}"/>
+			<mx:Spacer height="15"/>
+			<s:Label text="{'Time Slice: '+MainCoThreadScheduler.instance.minTimeSlice}" />
+			<s:HSlider width="200" minimum="1" maximum="100" value="@{MainCoThreadScheduler.instance.minTimeSlice}"/>
+			<mx:Spacer height="15"/>
+			<s:Label text="{'Time Between Slices: '+MainCoThreadScheduler.instance.timeBetweenSlices}" />
+			<s:HSlider width="200" minimum="1" maximum="100" value="@{MainCoThreadScheduler.instance.timeBetweenSlices}"/>
+		</s:VGroup>
+		<mx:Spacer width="20"/>
+		<s:TextArea id="textbox" width="100%" height="225">
+			<s:text>Click one of the buttons at left to start some threads. You can click it multiple times in succession to see how the system handles a lot of threads. 
+			(Observe the console window to see the thread output.) 
+			You can type here to get an idea of the responsiveness of the app</s:text>
+		</s:TextArea>
+		<mx:Spacer width="20"/>
+	</s:HGroup>
+	
+	
+
+	
+</s:WindowedApplication>
