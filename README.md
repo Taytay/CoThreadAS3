@@ -6,7 +6,7 @@ CoThread lets you to create cooperative "threads" and coroutines in Actionscript
 
 With CoThread, you can easily break up any task, including _recursive_ functions, so that your UI stays responsive even while your application is doing significant processing.  Asynchronous code that uses CoThread is easy to read and write.
 
-CoThread was written by [Taylor Brown (Taytay)](http://taytay.com) for [You Need a Budget](http://youneedabudget.com), and more information can be found on the [project page](http://taytay.com/CoThreadAS3).
+CoThread was written by [Taylor Brown (Taytay)](http://taytay.com) for [You Need a Budget](http://youneedabudget.com), and at present, this document contains all of the documentation. More information can be found on the CoThread [project page](http://taytay.com/CoThreadAS3).
 
 CoThread is hosted on [GitHub](https://github.com/Taytay/CoThreadAS3), and mirrored on [BitBucket](https://bitbucket.org/Taytay/cothreadas3) for my fellow Mercurial-loving developers.
 
