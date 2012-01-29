@@ -54,6 +54,8 @@ package com.ynab.coroutine.scheduling
 			return _instance;
 		}
 		
+		//TB: I'm honestly not sure why I use an ArrayCollection now instead of a Vector
+		//I should probably change this back to Vector!
 		//var threads : Vector.<CoThread> = new Vector.<CoThread>(); 
 		protected var threads : ArrayCollection = new ArrayCollection();
 		
